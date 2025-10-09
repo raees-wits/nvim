@@ -29,3 +29,8 @@ vim.diagnostic.config({
   severity_sort = true,
 })
 
+
+-- backspace
+vim.opt.backspace = "indent,eol,start"
+vim.opt.ignorecase = true
+

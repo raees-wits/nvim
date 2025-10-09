@@ -1,7 +1,7 @@
 require("ayu").setup({
 	mirage = true,
 	overrides = {
-		Normal = {bg = "#262626"},
+		Normal = {bg = "#251D2F"},
 		LineNr = { fg = "gray" },
 		CursorLineNr = { fg = "#f28779" },
 	}

@@ -15,11 +15,25 @@ return {
 		dashboard.section.buttons.val = {
 			dashboard.button( "n", "  New file" , ":ene <BAR> startinsert <CR>"),
 			dashboard.button( "<Space> + ff", "󰈞  Find file", ":Telescope find_files <CR>"),
+			dashboard.button("c", "󰖷  Edit user configs", ":NvimTreeOpen ~/.config/nvim/<CR>"),
 			dashboard.button ("<Space> + fo", "󰈢  Recently opened files", ":Telescope oldfiles<CR>"),
+			dashboard.button ("L", "  Lazy package manager", ":Lazy <CR>"),
 			dashboard.button( "q", "󰅚  Quit Neovim" , ":qa<CR>"),
 		}
+		-- startup time
+		local stats = require("lazy").stats()
+        local ms = math.floor(stats.startuptime * 100 + 0.5) / 100
+        dashboard.section.footer = {
+            type = "text",
+            val = "⚡ Neovim loaded " .. stats.count .. " plugins in " .. ms .. "ms",
+            opts = {
+                position = "center",
+                hl = "Comment",
+            },
+        }
 
 		local headerPadding = vim.fn.max({2, vim.fn.floor(vim.fn.winheight(0) * 0.35)})
+
 		dashboard.config.layout = {
 			{
 				type = "padding",
@@ -32,6 +46,8 @@ return {
 				val = 3
 			},
 			dashboard.section.buttons,
+			{ type = "padding", val = 2 },
+			dashboard.section.footer,
 		}
 		alpha.setup(dashboard.config)
 	end
