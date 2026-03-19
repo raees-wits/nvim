@@ -1,6 +1,5 @@
 require("configs.lazy")
-require("configs.ayumirage")
---require("configs.dark-charcoal")
+--require("configs.melange")
 require("configs.setup")
 require("configs.keymaps")
 require("configs.lsp-config")
@@ -33,4 +32,4 @@ vim.diagnostic.config({
 -- backspace
 vim.opt.backspace = "indent,eol,start"
 vim.opt.ignorecase = true
-
+vim.cmd.colorscheme 'ayu-dark'
