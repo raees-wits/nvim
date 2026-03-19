@@ -1,22 +1,43 @@
--- lsp-config.lua
 
--- Learn the keybindings, see :help lsp-zero-keybindings
--- Learn to configure LSP servers, see :help lsp-zero-api-showcase
-local lsp = require('lsp-zero')
-lsp.preset('recommended')
+-- Mason manages LSP servers -----------------------------------------
+require('mason').setup({})
+require('mason-lspconfig').setup({
+  ensure_installed = { 'lua_ls', 'clangd'},
+  handlers = {
+    function(server)
+      -- default handler for all servers
+      vim.lsp.config[server].setup({})
+    end,
 
-require("lsp_signature").on_attach({
+    -- per-server overrides
+    lua_ls = function()
+      vim.lsp.config.lua_ls.setup({
+        settings = {
+          Lua = {
+            diagnostics = { globals = { 'vim' } },
+            workspace   = { checkThirdParty = false },
+          },
+        },
+      })
+    end,
+  },
+})
+
+-- Signature help popup ----------------------------------------------
+require('lsp_signature').on_attach({
   bind = true,
-  handler_opts = { border = "rounded" },
+  handler_opts = { border = 'rounded' },
   floating_window = true,
-  hint_enable = false,
-  toggle_key = "<M-x>",  -- optional toggle keybinding
-  extra_trigger_chars = { "(", "," },
-}, bufnr)
+  hint_enable = true,
+  toggle_key = '<M-x>',
+  extra_trigger_chars = { '(', ',' },
+})
 
-
-
--- (Optional) Configure lua language server for neovim
-lsp.nvim_workspace()
-
-lsp.setup()
+-- Diagnostics styling -----------------------------------------------
+vim.diagnostic.config({
+  virtual_text = { severity = vim.diagnostic.severity.ERROR },
+  signs        = { severity = vim.diagnostic.severity.ERROR },
+  underline    = { severity = vim.diagnostic.severity.ERROR },
+  update_in_insert = false,
+  severity_sort = true,
+})
